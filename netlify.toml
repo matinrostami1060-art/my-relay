@@ -1,6 +1,0 @@
-[[edge_functions]]
-  function = "relay"
-  path = "/*"
-
-[build]
-  edge_functions = "."
