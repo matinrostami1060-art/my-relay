@@ -1,3 +1,5 @@
 [[edge_functions]]
   function = "relay"
   path = "/*"
+  # این خط زیر به نتلیفای می‌گوید فایل دقیقاً کجاست
+  location = "./relay.js"
