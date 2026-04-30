@@ -1,24 +1,22 @@
 export default async (request, context) => {
-  const TARGET_DOMAIN = Deno.env.get("TARGET_DOMAIN");
+  try {
+    const TARGET_DOMAIN = Deno.env.get("TARGET_DOMAIN") || "https://vpn.matsa12345.ir:8080";
+    
+    const url = new URL(request.url);
+    const target = new URL(TARGET_DOMAIN);
 
-  if (!TARGET_DOMAIN) {
-    return new Response("TARGET_DOMAIN is not defined", { status: 500 });
+    const newUrl = new URL(url.pathname + url.search, target.origin);
+
+    const headers = new Headers(request.headers);
+    headers.set("host", target.hostname);
+
+    return await fetch(newUrl.toString(), {
+      method: request.method,
+      headers,
+      body: request.body,
+      redirect: "manual",
+    });
+  } catch (e) {
+    return new Response("Error: " + e.message, { status: 500 });
   }
-
-  const url = new URL(request.url);
-  const targetUrl = new URL(TARGET_DOMAIN);
-  
-  url.protocol = targetUrl.protocol;
-  url.hostname = targetUrl.hostname;
-  url.port = targetUrl.port;
-
-  const headers = new Headers(request.headers);
-  headers.set("host", targetUrl.hostname);
-
-  return fetch(url.toString(), {
-    method: request.method,
-    headers,
-    body: request.body,
-    redirect: "manual",
-  });
 };
