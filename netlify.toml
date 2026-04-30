@@ -1,3 +1,11 @@
 [[edge_functions]]
   function = "relay"
   path = "/*"
+
+[build]
+  publish = "."
+
+[functions]
+  node_bundler = "esbuild"
+  # این خط پایین به نتلیفای می‌گوید کد دقیقاً همین‌جاست
+  directory = "."
